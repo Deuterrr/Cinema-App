@@ -2,14 +2,14 @@ import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:cinema_application/widgets/custombutton.dart';
 import 'package:flutter/material.dart';
 
-class Voucherpages extends StatefulWidget {
-  const Voucherpages({super.key});
+class MyPromosPage extends StatefulWidget {
+  const MyPromosPage({super.key});
 
   @override
-  State<Voucherpages> createState() => _VoucherpagesState();
+  State<MyPromosPage> createState() => _MyPromosPageState();
 }
 
-class _VoucherpagesState extends State<Voucherpages> {
+class _MyPromosPageState extends State<MyPromosPage> {
   bool isVoucherClicked = false;
 
   void _toggleButton() {

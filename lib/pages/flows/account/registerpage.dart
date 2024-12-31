@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:cinema_application/pages/accountflow/accountlogin.dart';
-import 'package:cinema_application/pages/accountflow/_db_accounthelper.dart';
+import 'package:cinema_application/pages/flows/account/loginpage.dart';
+import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 
-class Accountsignup extends StatefulWidget {
-  const Accountsignup({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  _AccountsignupState createState() => _AccountsignupState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _AccountsignupState extends State<Accountsignup> {
+class _RegisterPageState extends State<RegisterPage> {
   final AccountHelper accountHelper = AccountHelper();
 
   final TextEditingController fullNameController = TextEditingController();
@@ -31,7 +31,7 @@ class _AccountsignupState extends State<Accountsignup> {
       return;
     }
 
-    final isSuccess = await accountHelper.registerUser(
+    final isSuccess = await accountHelper.submitRegister(
       fullName: fullName,
       email: email,
       password: password,
@@ -44,7 +44,7 @@ class _AccountsignupState extends State<Accountsignup> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Accountlogin()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

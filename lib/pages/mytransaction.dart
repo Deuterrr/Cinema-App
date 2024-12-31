@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 
-class Transactionpages extends StatefulWidget {
-  const Transactionpages({super.key});
+class MyTransactionPage extends StatefulWidget {
+  const MyTransactionPage({super.key});
 
   @override
-  State<Transactionpages> createState() => _TransactionpagesState();
+  State<MyTransactionPage> createState() => _MyTransactionPageState();
 }
 
-class _TransactionpagesState extends State<Transactionpages> {
+class _MyTransactionPageState extends State<MyTransactionPage> {
   @override
   @override
 Widget build(BuildContext context) {

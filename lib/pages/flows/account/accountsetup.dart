@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:cinema_application/pages/accountflow/accountlogin.dart';
-import 'package:cinema_application/pages/accountflow/accountsignup.dart';
+import 'package:cinema_application/pages/flows/account/loginpage.dart';
+import 'package:cinema_application/pages/flows/account/registerpage.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 
-class Accountsetup extends StatelessWidget {
-  const Accountsetup({super.key});
+class AccountSetupPage extends StatelessWidget {
+  const AccountSetupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class Accountsetup extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Accountlogin()),
+                                  builder: (context) => LoginPage()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -128,7 +128,7 @@ class Accountsetup extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Accountsignup()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
                     },
                     child: Text(
                       " Register here",

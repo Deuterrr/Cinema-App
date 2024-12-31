@@ -1,16 +1,16 @@
-import 'package:cinema_application/pages/drawer.dart';
+import 'package:cinema_application/pages/mainscreen.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cinema_application/pages/accountflow/_db_accounthelper.dart';
+import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 
-class Accountlogin extends StatefulWidget {
-  const Accountlogin({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  _AccountloginState createState() => _AccountloginState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _AccountloginState extends State<Accountlogin> {
+class _LoginPageState extends State<LoginPage> {
   final AccountHelper accountHelper = AccountHelper();
 
   final TextEditingController emailController = TextEditingController();
@@ -27,12 +27,12 @@ class _AccountloginState extends State<Accountlogin> {
       return;
     }
 
-    final isSuccess = await accountHelper.loginUser(
+    final isSuccess = await accountHelper.submitLogin(
       email: email,
       password: password,
     );
 
-    if (isSuccess) await accountHelper.saveLoginAccount(email);
+    if (isSuccess) await accountHelper.submitLastLogin(email);
 
     if (isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -40,7 +40,7 @@ class _AccountloginState extends State<Accountlogin> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

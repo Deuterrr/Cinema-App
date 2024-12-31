@@ -1,5 +1,5 @@
-import 'package:cinema_application/models/listmovie.dart';
-import 'package:cinema_application/pages/bookingflow/detailmoviepages.dart';
+import 'package:cinema_application/data/models/listmovie.dart';
+import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,4 +1,4 @@
-import 'package:cinema_application/pages/bookingflow/bookingseats.dart';
+import 'package:cinema_application/pages/flows/booking/bookingseats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -1,5 +1,4 @@
-import 'package:cinema_application/pages/accountflow/_db_accounthelper.dart';
-import 'package:cinema_application/pages/__dbhelper.dart';
+import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -11,10 +10,10 @@ class AuthProvider with ChangeNotifier {
 
   // Function to check login status (you can call this when the app starts or during navigation)
   void checkLoginStatus() async {
-    String? lastLoginEmail = await AccountHelper().getLastLoginAccount();
+    String? lastLoginEmail = await AccountHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
-      final user = await DatabaseHelper().getUserByEmail(lastLoginEmail);
+      final user = await AccountHelper().getUserByEmail(lastLoginEmail);
       if (user != null) {
         _isLoggedIn = true;
         _userDetails = user;

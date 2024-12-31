@@ -1,14 +1,14 @@
 import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:flutter/material.dart';
 
-class Favoritepages extends StatefulWidget {
-  const Favoritepages({super.key});
+class MyWishlistPage extends StatefulWidget {
+  const MyWishlistPage({super.key});
 
   @override
-  State<Favoritepages> createState() => _FavoritepagesState();
+  State<MyWishlistPage> createState() => _MyWishlistPageState();
 }
 
-class _FavoritepagesState extends State<Favoritepages> {
+class _MyWishlistPageState extends State<MyWishlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:cinema_application/models/listmovie.dart';
+import 'package:cinema_application/data/models/listmovie.dart';
 
-import 'package:cinema_application/pages/bookingflow/detailmovie_upcoming.dart';
-import 'package:cinema_application/pages/bookingflow/searchfieldpages.dart';
-import 'package:cinema_application/pages/bookingflow/detailmoviepages.dart';
+import 'package:cinema_application/pages/flows/booking/detailmovie_upcoming.dart';
+import 'package:cinema_application/pages/flows/booking/searchfieldpages.dart';
+import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
 
 import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:cinema_application/widgets/custombutton.dart';
@@ -25,8 +25,8 @@ class _ExploreMoviesState extends State<ExploreMovies> {
   @override
   void initState() {
     super.initState();
-    nowMovies = AllMovie.getList(); // Method to get 'Now' movies
-    upcomingMovies = AllMovie.getUpcoming(); // Method to get 'Upcoming' movies
+    nowMovies = AllMovie.getList();
+    upcomingMovies = AllMovie.getUpcoming();
   }
 
   void _toggleButton() {
@@ -40,16 +40,15 @@ class _ExploreMoviesState extends State<ExploreMovies> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 253, 247),
       appBar: CustomAppBar(
-        title: "",
+        title: "Movies",
         showBottomBorder: false,
         trailingButton: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Location button
             Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 13.5),
-              width: 80,
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 13.5),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               height: 36,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 255, 196, 64),
@@ -80,10 +79,12 @@ class _ExploreMoviesState extends State<ExploreMovies> {
                 ),
               ),
             ),
+
             // Search button
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 13.5),
               width: 36,
+              height: 36,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 255, 196, 64),
                 border: Border.all(
@@ -116,34 +117,36 @@ class _ExploreMoviesState extends State<ExploreMovies> {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Color.fromARGB(255, 14, 37, 34),
-                  width: 1.2,
+            Container(
+              padding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color.fromARGB(255, 14, 37, 34),
+                    width: 1.2,
+                  ),
                 ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomButton(
-                  text: 'Now',
-                  isClicked: !isVoucherClicked,
-                  onPressed: _toggleButton,
-                ),
-                const SizedBox(width: 5),
-                CustomButton(
-                  text: 'Upcoming',
-                  isClicked: isVoucherClicked,
-                  onPressed: _toggleButton,
-                ),
-              ],
-            ),
+              child: 
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomButton(
+                    text: 'Now',
+                    isClicked: !isVoucherClicked,
+                    onPressed: _toggleButton,
+                  ),
+                  const SizedBox(width: 5),
+                  CustomButton(
+                    text: 'Upcoming',
+                    isClicked: isVoucherClicked,
+                    onPressed: _toggleButton,
+                  ),
+                ],
+              ),
           ),
 
           // Movie List Display

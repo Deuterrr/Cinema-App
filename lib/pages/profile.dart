@@ -4,22 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:cinema_application/pages/drawer.dart';
-import 'package:cinema_application/pages/accountflow/accountsetup.dart';
-import 'package:cinema_application/pages/accountflow/_db_accounthelper.dart';
-import 'package:cinema_application/pages/__dbhelper.dart';
-import 'package:cinema_application/pages/profileflow/editprofile.dart';
+import 'package:cinema_application/pages/mainscreen.dart';
+import 'package:cinema_application/pages/flows/account/accountsetup.dart';
+import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
+import 'package:cinema_application/pages/flows/profile/editprofile.dart';
 
 import 'package:cinema_application/widgets/customappbar.dart';
 
-class ProfilePages extends StatefulWidget {
-  const ProfilePages({super.key});
+class MyProfilePage extends StatefulWidget {
+  const MyProfilePage({super.key});
 
   @override
-  State<ProfilePages> createState() => _ProfilePagesState();
+  State<MyProfilePage> createState() => _MyProfilePageState();
 }
 
-class _ProfilePagesState extends State<ProfilePages> {
+class _MyProfilePageState extends State<MyProfilePage> {
   bool _isLoggedIn = false; // Track login state
   Map<String, dynamic>? _userDetails; // Store user details
   String? picturepath;
@@ -40,11 +39,11 @@ class _ProfilePagesState extends State<ProfilePages> {
 
   void _checkLoginStatus() async {
     // Fetch the last logged-in account from the login table
-    String? lastLoginEmail = await AccountHelper().getLastLoginAccount();
+    String? lastLoginEmail = await AccountHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
       // Fetch user details from the users table
-      final user = await DatabaseHelper().getUserByEmail(lastLoginEmail);
+      final user = await AccountHelper().getUserByEmail(lastLoginEmail);
       if (user != null) {
         setState(() {
           _isLoggedIn = true;
@@ -56,11 +55,11 @@ class _ProfilePagesState extends State<ProfilePages> {
   }
 
   void _deleteLoginStatus() async {
-    String? lastLoginEmail = await AccountHelper().getLastLoginAccount();
+    String? lastLoginEmail = await AccountHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
       // Attempt to delete the login
-      final result = await DatabaseHelper().deleteLogin(lastLoginEmail);
+      final result = await AccountHelper().deleteLastLogin(lastLoginEmail);
       if (result > 0) {
         setState(() {
           _isLoggedIn = false;
@@ -155,7 +154,7 @@ class _ProfilePagesState extends State<ProfilePages> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Accountsetup()),
+                              builder: (context) => AccountSetupPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -425,7 +424,7 @@ class _ProfilePagesState extends State<ProfilePages> {
                                     _deleteLoginStatus();
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => HomeScreen())
+                                      MaterialPageRoute(builder: (context) => MainScreen())
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

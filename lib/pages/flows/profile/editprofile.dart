@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:cinema_application/pages/accountflow/_db_accounthelper.dart';
-import 'package:cinema_application/pages/__dbhelper.dart';
+import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -74,10 +73,10 @@ class _EditprofileState extends State<Editprofile> {
   }
 
   void _checkLoginStatus() async {
-    String? lastLoginEmail = await AccountHelper().getLastLoginAccount();
+    String? lastLoginEmail = await AccountHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
-      final user = await DatabaseHelper().getUserByEmail(lastLoginEmail);
+      final user = await AccountHelper().getUserByEmail(lastLoginEmail);
       if (user != null) {
         setState(() {
           _isLoggedIn = true;

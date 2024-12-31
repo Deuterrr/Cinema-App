@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:cinema_application/pages/auth/auth.dart';
-import 'package:cinema_application/pages/drawer.dart';
-import 'package:cinema_application/pages/__dbhelper.dart';
+import 'package:cinema_application/domain/controllers/auth_controller.dart';
+import 'package:cinema_application/pages/mainscreen.dart';
+import 'package:cinema_application/data/helpers/dbhelper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       print("Database initialized successfully.");
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
     } catch (e) {
       print("Error during database initialization: $e");

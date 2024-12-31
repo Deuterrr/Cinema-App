@@ -16,29 +16,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: preferredSize.height,
       margin: const EdgeInsets.fromLTRB(0, 37, 0, 0),
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 253, 247),
         border: showBottomBorder
-        ? Border(
-          bottom: BorderSide(
-            color: Color.fromARGB(255, 14, 37, 34),
-            width: 1.2,
-          ),
-        )
-        : null
+          ? Border(
+              bottom: BorderSide(
+                color: const Color.fromARGB(255, 14, 37, 34),
+                width: 1.2,
+              ),
+            )
+          : null,
       ),
-      child: Stack(
-        alignment: Alignment.center,
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Back Button
-          if (showBackButton)
-            Positioned(
-              left: 0,
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(0, 13.5, 0, 13.5),
+      child: IntrinsicHeight( // Forces Row to take the height of its tallest child
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center, // Stretch children to match height
+          children: [
+            // Back Button
+            if (showBackButton)
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 13.5),
                 height: 36,
                 width: 36,
                 decoration: BoxDecoration(
@@ -65,15 +65,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     size: 18,
                   ),
                 ),
-              ),
-            ),
+              )
+            else
+              const SizedBox(width: 36),
 
-          // Title
-          Center(
-            child: 
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Expanded(
+            // Title
+              Center(
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
@@ -85,23 +82,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
-            ),
-          ),
 
-          // optional trailing button
-          Positioned(
-            right: 0,
-            child: 
-              trailingButton ?? // this is cool, idk why
-                  const SizedBox(
-                    width: 48,
-                  ),
-          )
-        ],
+            // Optional trailing button
+            trailingButton ?? 
+              const SizedBox(width: 48),
+          ],
+        ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(60.0);
+  Size get preferredSize => const Size.fromHeight(65.0);
 }

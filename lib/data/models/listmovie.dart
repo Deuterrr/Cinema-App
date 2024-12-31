@@ -9,16 +9,16 @@ class AllMovie {
   String years;
   String watchlist;
 
-  AllMovie(
-      {required this.moviename,
-      required this.images,
-      required this.rate,
-      required this.genre,
-      required this.time,
-      required this.rating,
-      required this.synopsis,
-      required this.years,
-      required this.watchlist});
+  AllMovie({
+    required this.moviename,
+    required this.images,
+    required this.rate,
+    required this.genre,
+    required this.time,
+    required this.rating,
+    required this.synopsis,
+    required this.years,
+    required this.watchlist});
 
   static List<AllMovie> getList() {
     List<AllMovie> listing = [];

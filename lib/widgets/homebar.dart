@@ -1,8 +1,8 @@
-import 'package:cinema_application/pages/auth/auth.dart';
-import 'package:cinema_application/pages/bookingflow/searchfieldpages.dart';
-import 'package:cinema_application/pages/profilepages.dart';
+import 'package:cinema_application/domain/controllers/auth_controller.dart';
+import 'package:cinema_application/pages/flows/booking/searchfieldpages.dart';
+import 'package:cinema_application/pages/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:cinema_application/pages/accountflow/accountsetup.dart';
+import 'package:cinema_application/pages/flows/account/accountsetup.dart';
 import 'package:provider/provider.dart';
 
 class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
@@ -17,7 +17,8 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
         final isLogIn = authProvider.isLoggedIn;
 
         return Container(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 4),
+          margin: const EdgeInsets.fromLTRB(0, 37, 0, 0),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 255, 253, 247),
             border: const Border(
@@ -52,10 +53,9 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
                   children: [
                     // Search Icon
                     Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 13.5),
+                      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 13.5),
                       width: 36,
-                      height: 40,
+                      height: 38,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 255, 196, 64),
                         border: Border.all(
@@ -90,7 +90,7 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 13.5),
                       width: 36,
-                      height: 40,
+                      height: 38,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 255, 255, 255),
                         border: Border.all(
@@ -113,13 +113,13 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProfilePages()));
+                                    builder: (context) => MyProfilePage()));
                           } else {
                             // Navigate to AccountSetup without replacing the BottomNavbar
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Accountsetup()));
+                                    builder: (context) => AccountSetupPage()));
                           }
                         },
                         icon: const Icon(
