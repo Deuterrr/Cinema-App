@@ -1,5 +1,5 @@
 import 'package:cinema_application/widgets/customappbar.dart';
-import 'package:cinema_application/widgets/custombutton.dart';
+import 'package:cinema_application/widgets/selectionstate.dart';
 import 'package:flutter/material.dart';
 
 class MyPromosPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _MyPromosPageState extends State<MyPromosPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomButton(
+              SelectionState(
                 text: "Voucher",
                 isClicked: isVoucherClicked,
                 onPressed: () {
@@ -41,7 +41,7 @@ class _MyPromosPageState extends State<MyPromosPage> {
                 },
               ),
               SizedBox(width: 8),
-              CustomButton(
+              SelectionState(
                 text: "Coupon",
                 isClicked: !isVoucherClicked,
                 onPressed: () {

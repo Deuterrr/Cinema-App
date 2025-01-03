@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CustomButton extends StatefulWidget {
+class SelectionState extends StatefulWidget {
   final String text;
   final bool isClicked;
   final VoidCallback onPressed;
 
-  const CustomButton({super.key, required this.text, required this.isClicked, required this.onPressed});
+  const SelectionState({super.key, required this.text, required this.isClicked, required this.onPressed});
 
   @override
-  _CustomButtonState createState() => _CustomButtonState();
+  _SelectionStateState createState() => _SelectionStateState();
 }
 
-class _CustomButtonState extends State<CustomButton> {
+class _SelectionStateState extends State<SelectionState> {
 
   @override
   Widget build(BuildContext context) {

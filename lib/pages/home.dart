@@ -54,17 +54,17 @@ class _HomePageState extends State<HomePage> {
 
                     // displaying ads
                     adsSlider(),
-                    const SizedBox(height: 5),
 
                     // displaying vouchers and coupons
                     displayVoucher(),
-                    const SizedBox(height: 5),
 
                     // displaying now showing movies in box
-                    nowShowingMovie(),
+                    nowPlayingMovie(),
 
                     // displaying upcoming movies in box
                     upcomingMovie(),
+                    contoh(),
+                    contoh(),
                     const SizedBox(height: 3),
                   ],
                 ),
@@ -84,51 +84,48 @@ class _HomePageState extends State<HomePage> {
       double maxHeight = 180;
       double aspectRatio = constraints.maxWidth / maxHeight;
 
-      return Transform.translate(     // make sure the border aligns with the bar border as well
-        offset: const Offset(0, -1),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.symmetric(
-              horizontal: BorderSide(
-                color: Colors.black,
-                width: 1.2,
-              ),
+      return Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.black,
+              width: 1.2,
             ),
           ),
-          child: CarouselSlider.builder(
-            itemCount: listmoviefirst.length,
-            itemBuilder: (context, index, realIndex) {
-              final movie = listmoviefirst[index];
-              return Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    movie.images,
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    left: 0,
-                    right: 5,
-                    child: Text(
-                      movie.nameMovie,
-                      textAlign: TextAlign.end,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+        ),
+        child: CarouselSlider.builder(
+          itemCount: listmoviefirst.length,
+          itemBuilder: (context, index, realIndex) {
+            final movie = listmoviefirst[index];
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  movie.images,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  bottom: 5,
+                  left: 0,
+                  right: 5,
+                  child: Text(
+                    movie.nameMovie,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              );
-            },
-            options: CarouselOptions(
-              autoPlay: true,
-              enlargeCenterPage: true,
-              aspectRatio: aspectRatio, // Dynamic aspect ratio
-              viewportFraction: 1.0,
-            ),
+                ),
+              ],
+            );
+          },
+          options: CarouselOptions(
+            autoPlay: true,
+            enlargeCenterPage: true,
+            aspectRatio: aspectRatio, // Dynamic aspect ratio
+            viewportFraction: 1.0,
           ),
         ),
       );
@@ -138,77 +135,42 @@ class _HomePageState extends State<HomePage> {
 
   // display users voucher
   Widget displayVoucher() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-      decoration: BoxDecoration(
-        color: Color(0xffFFFDF7),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.black12),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black12,
-              blurRadius: 4,
-              offset: const Offset(0, 2))
-        ]
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildVoucher('Level', 'Classic', isBold: true),
-          _buildDivider(),
-          _buildVoucher('Points', '0'),
-          _buildDivider(),
-          SectionWithIcon(
-              title: 'Vouchers',
-              value: '0',
-              icon: 'assets/icon/coupunicon.svg'),
-          _buildDivider(),
-          SectionWithIcon(
-              title: 'Coupons', value: '0', icon: 'assets/icon/discount.svg')
-        ],
-      ),
-    );
-  }
-
-  // build section without an icon
-  Widget _buildVoucher(String title, String value, {bool isBold = false}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: "Montserrat-Medium",
-            fontSize: 12,
-            letterSpacing: 0.12,
-            color: Color(0xff6A958C),
-          ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 8, 12, 9),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 220, 85, 94),
         ),
-        SizedBox(height: 4),
-        Text(
-          value,
-          style: TextStyle(
-              fontFamily: "Montserrat-SemiBold",
-              fontSize: 12,
-              letterSpacing: 0.12,
-              color: Colors.black),
-        )
-      ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SectionWithIcon(
+                title: 'Level',
+                value: ' Classic',
+                haveIcon: false,),
+            SectionWithIcon(
+                title: 'Points',
+                value: ' 0',
+                haveIcon: false,),
+            SectionWithIcon(
+                title: 'Vouchers',
+                value: ' 0',
+                haveIcon: true,
+                icon: 'assets/icon/coupunicon.svg'),
+            SectionWithIcon(
+                title: 'Coupons',
+                value: ' 0',
+                haveIcon: true,
+                icon: 'assets/icon/discount.svg')
+          ],
+        ),
+      )
     );
   }
-
-  // for divider
-  Widget _buildDivider() {
-    return Container(
-      height: 37,
-      width: 1,
-      color: Colors.black,
-    );
-  }  
 
   // list popular movie
-  Widget nowShowingMovie() {
+  Widget nowPlayingMovie() {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -219,13 +181,13 @@ class _HomePageState extends State<HomePage> {
         )
       ),
       child: Container(
-        // width: 450,
-        color: Color(0xffA7D4CB),
+        color: Color.fromARGB(255, 245, 240, 224),
         padding: EdgeInsets.fromLTRB(12, 7, 12, 14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Row
+
+            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -234,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     "Now Playing",
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 16,
                       color: Color.fromARGB(255, 14, 37, 34), //blak
                       fontWeight: FontWeight.w700,
                       fontFamily: "Montserrat",
@@ -246,19 +208,17 @@ class _HomePageState extends State<HomePage> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ExploreMovies()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExploreMovies()));
                     },
                     child: Text(
                       "See All",
                       style: TextStyle(
-                          // decoration: TextDecoration.underline,
-                          // decorationColor: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Montserrat",
-                          color: Colors.white),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Montserrat",
+                        color: Color.fromARGB(255, 106, 149, 140)),
                     ),
                   ),
                 ),
@@ -274,6 +234,67 @@ class _HomePageState extends State<HomePage> {
 
   // list upcoming movie
   Widget upcomingMovie() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Colors.black,
+            width: 1.2
+          ),
+        )
+      ),
+      child: Container(
+        color: Color.fromARGB(255, 245, 240, 224),
+        padding: EdgeInsets.fromLTRB(12, 7, 12, 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            // Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Upcoming",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 14, 37, 34), //blak
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Montserrat",
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExploreMovies()));
+                    },
+                    child: Text(
+                      "See All",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Montserrat",
+                        color: Color.fromARGB(255, 106, 149, 140)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget contoh() {
     return Container(
       decoration: BoxDecoration(
         border: Border.symmetric(
@@ -312,23 +333,24 @@ class _HomePageState extends State<HomePage> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ExploreMovies()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExploreMovies()));
                     },
                     child: Text(
                       "See All",
                       style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Montserrat",
-                          color: Colors.white),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Montserrat",
+                        color: Colors.white),
                     ),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 10),
+
             // Movie ListView
             Expanded(
               child: ListView.builder(
@@ -454,4 +476,5 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
+
 }

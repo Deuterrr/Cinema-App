@@ -8,7 +8,7 @@ import 'package:cinema_application/pages/flows/booking/searchfieldpages.dart';
 import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
 
 import 'package:cinema_application/widgets/customappbar.dart';
-import 'package:cinema_application/widgets/custombutton.dart';
+import 'package:cinema_application/widgets/selectionstate.dart';
 
 class ExploreMovies extends StatefulWidget {
   const ExploreMovies({super.key});
@@ -134,13 +134,13 @@ class _ExploreMoviesState extends State<ExploreMovies> {
               Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomButton(
+                  SelectionState(
                     text: 'Now',
                     isClicked: !isVoucherClicked,
                     onPressed: _toggleButton,
                   ),
                   const SizedBox(width: 5),
-                  CustomButton(
+                  SelectionState(
                     text: 'Upcoming',
                     isClicked: isVoucherClicked,
                     onPressed: _toggleButton,
