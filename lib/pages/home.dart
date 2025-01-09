@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 253, 247),
+      backgroundColor: Color(0xFFFFFFFF), // White
       appBar: HomeBarButton(
         title: '',
       ),
@@ -55,8 +55,9 @@ class _HomePageState extends State<HomePage> {
                     // displaying ads
                     adsSlider(),
 
+                    // sementara ngga dipakai dulu
                     // displaying vouchers and coupons
-                    displayVoucher(),
+                    // displayVoucher(),
 
                     // displaying now showing movies in box
                     nowPlayingMovie(),
@@ -64,8 +65,6 @@ class _HomePageState extends State<HomePage> {
                     // displaying upcoming movies in box
                     upcomingMovie(),
                     contoh(),
-                    contoh(),
-                    const SizedBox(height: 3),
                   ],
                 ),
               ),
@@ -100,10 +99,15 @@ class _HomePageState extends State<HomePage> {
             return Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(
-                  movie.images,
-                  fit: BoxFit.cover,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.purple
+                  ),
                 ),
+                // Image.asset(
+                //   movie.images,
+                //   fit: BoxFit.cover,
+                // ),
                 Positioned(
                   bottom: 5,
                   left: 0,
@@ -172,125 +176,152 @@ class _HomePageState extends State<HomePage> {
   // list popular movie
   Widget nowPlayingMovie() {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.black,
-            width: 1.2
-          ),
-        )
-      ),
-      child: Container(
-        color: Color.fromARGB(255, 245, 240, 224),
-        padding: EdgeInsets.fromLTRB(12, 7, 12, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Now Playing",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xFF0E2522), // Black
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "Montserrat",
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExploreMovies()));
+                  },
                   child: Text(
-                    "Now Playing",
+                    "See All",
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 14, 37, 34), //blak
-                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                       fontFamily: "Montserrat",
+                      color: Color(0xFF4A6761) // Dark Tosca
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ExploreMovies()));
-                    },
-                    child: Text(
-                      "See All",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Montserrat",
-                        color: Color.fromARGB(255, 106, 149, 140)),
-                    ),
-                  ),
-                ),
-              ],
+              ),
+            ],
+          ),
+          SizedBox(height: 4),
+
+          Container(
+            width: 210,
+            height: 352,
+            decoration: BoxDecoration(
+              color: Color(0xFFFFD580) // Flat Orange
             ),
-            SizedBox(height: 10),
-            
-          ],
-        ),
-      )
+          )
+        ],
+      ),
     );
   }
 
   // list upcoming movie
   Widget upcomingMovie() {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.black,
-            width: 1.2
-          ),
-        )
-      ),
-      child: Container(
-        color: Color.fromARGB(255, 245, 240, 224),
-        padding: EdgeInsets.fromLTRB(12, 7, 12, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      padding: EdgeInsets.fromLTRB(16, 14, 16, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Upcoming",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xFF0E2522), // Black
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "Montserrat",
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExploreMovies()));
+                  },
+                  child: Text(
+                    "See All",
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 14, 37, 34), //blak
-                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                       fontFamily: "Montserrat",
+                      color: Color(0xFF4A6761) // Dark Tosca
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ExploreMovies()));
-                    },
-                    child: Text(
-                      "See All",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Montserrat",
-                        color: Color.fromARGB(255, 106, 149, 140)),
-                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: 4),
+
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                  width: 124,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFD580) // Flat Orange
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                  width: 124,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFD580) // Flat Orange
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                  width: 124,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFD580) // Flat Orange
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                  width: 124,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFD580) // Flat Orange
                   ),
                 ),
               ],
-            ),
-            SizedBox(height: 10),
-          ],
-        ),
-      )
+            )
+          )
+        ],
+      ),
     );
   }
 

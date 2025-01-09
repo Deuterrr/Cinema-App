@@ -15,80 +15,81 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: preferredSize.height,
-      margin: const EdgeInsets.fromLTRB(0, 37, 0, 0),
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 253, 247),
-        border: showBottomBorder
-          ? Border(
-              bottom: BorderSide(
-                color: const Color.fromARGB(255, 14, 37, 34),
-                width: 1.2,
-              ),
-            )
-          : null,
-      ),
-      child: IntrinsicHeight( // Forces Row to take the height of its tallest child
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center, // Stretch children to match height
-          children: [
-            // Back Button
-            if (showBackButton)
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 13.5),
-                height: 36,
-                width: 36,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 196, 64),
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 14, 37, 34),
-                    width: 1.2,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(1, 2),
-                      color: Colors.black.withOpacity(1),
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Color.fromARGB(255, 14, 37, 34),
-                    size: 18,
-                  ),
+    return SafeArea(
+      child: Container(
+        height: preferredSize.height,
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFFFFF), // Tosca
+          border: showBottomBorder
+            ? Border(
+                bottom: BorderSide(
+                  color: const Color(0xFF0E2522), // Black
+                  width: 1.2,
                 ),
               )
-            else
-              const SizedBox(width: 36),
+            : null,
+        ),
+        child: IntrinsicHeight( // Forces Row to take the height of its tallest child
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center, // Stretch children to match height
+            children: [
 
-            // Title
-            Center(
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(255, 14, 37, 34),
+              // Back Button
+              if (showBackButton)
+                Container(
+                  height: 38,
+                  width: 38,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFEC958), // Orange
+                    border: Border.all(
+                      color: Color(0xFF0E2522), // Black
+                      width: 1.2,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(1.4, 1.8),
+                        color: Color(0xFF0E2522).withOpacity(1),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Color(0xFF0E2522), // Black
+                      size: 18,
+                    ),
+                  ),
+                )
+              else
+                const SizedBox(width: 36),
+
+              // Title
+              Center(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: "Montserrat",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF0E2522), // Black
+                  ),
                 ),
               ),
-            ),
 
-            // Optional trailing button
-            trailingButton ?? 
-              const SizedBox(width: 48),
-          ],
+              // Optional trailing button
+              trailingButton ?? 
+                const SizedBox(width: 48),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 

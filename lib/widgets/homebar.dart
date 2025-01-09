@@ -16,111 +16,111 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
-        return Container(
-          margin: const EdgeInsets.fromLTRB(0, 37, 0, 0),
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 253, 247),
-            border: const Border(
-              bottom: BorderSide(
-                color: Color.fromARGB(255, 14, 37, 34),
-                width: 1.2,
+        return SafeArea(
+          child: Container(
+            height: preferredSize.height,
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF94CBC0), // Tosca
+              border: const Border(
+                bottom: BorderSide(
+                  color: Color(0xFF0E2522), // Black
+                  width: 1.2,
+                ),
               ),
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Logo
-              Container(
-                decoration: BoxDecoration(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Logo
+                Container(
+                  decoration: BoxDecoration(
+                  ),
+                  child: Text(
+                    'Cinema Scope',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF0E2522), // Black
+                    )
+                  ),
                 ),
-                child: Text(
-                  'Cinema Time',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  )
-                ),
-              ),
 
-              // Icons Container
-              SizedBox(
-                width: 82,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // location Icon
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 13.5),
-                      width: 36,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 196, 64),
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 14, 37, 34),
-                          width: 1.2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: const Offset(1, 2),
-                            color: Colors.black.withOpacity(1),
+                // Icons Container
+                SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // location Icon
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEC958), // Orange
+                          border: Border.all(
+                            color: const Color(0xFF0E2522), // Black
+                            width: 1.2,
                           ),
-                        ],
-                      ),
-                      child: IconButton(
-                        iconSize: 19,
-                        onPressed: () {
-                          locationPanel(context);
-                        },
-                        icon: const Icon(
-                          Icons.location_on_outlined,
-                          color: Color.fromARGB(255, 14, 37, 34),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(1.4, 1.8),
+                              color: Color(0xFF0E2522).withOpacity(1),
+                            ),
+                          ],
+                        ),
+                        child: IconButton(
+                          iconSize: 19,
+                          onPressed: () {
+                            locationPanel(context);
+                          },
+                          icon: const Icon(
+                            Icons.location_on_outlined,
+                            color: Color(0xFF0E2522), // Black
+                          ),
                         ),
                       ),
-                    ),
 
-                    // Search Icon
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 13.5),
-                      width: 36,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 196, 64),
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 14, 37, 34),
-                          width: 1.2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: const Offset(1, 2),
-                            color: Colors.black.withOpacity(1),
+                      SizedBox(width: 6),
+
+                      // Search Icon
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEC958), // Orange
+                          border: Border.all(
+                            color: const Color(0xFF0E2522), // Black
+                            width: 1.2,
                           ),
-                        ],
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Searchfieldpages()));
-                        },
-                        icon: const Icon(
-                          Icons.search_rounded,
-                          color: Color.fromARGB(255, 14, 37, 34),
-                          size: 20,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(1.4, 1.8),
+                              color: Color(0xFF0E2522).withOpacity(1),
+                            ),
+                          ],
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Searchfieldpages()));
+                          },
+                          icon: const Icon(
+                            Icons.search_rounded,
+                            color: Color(0xFF0E2522),
+                            size: 20,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          )
         );
       },
     );
@@ -138,9 +138,9 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
             // Static blur background
             Positioned.fill(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 3.0),
                 child: Container(
-                  color: Color.fromARGB(255, 255, 253, 247).withOpacity(0.58),
+                  color: Color(0xFFFFFFFF).withOpacity(0.35),
                 ),
               ),
             ),
@@ -159,13 +159,13 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
                   curve: Curves.easeOut, // Smooth animation curve
                 )),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.8,
                   width: MediaQuery.of(context).size.width * 0.95,
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Color(0xffFFFDF7),
+                    color: Color(0xFFFFFFFF), // White
                     border: Border.all(
-                      color: const Color.fromARGB(255, 14, 37, 34),
+                      color: const Color(0xFF0E2522), // Black
                       width: 1.2,
                     ),
                     borderRadius: BorderRadius.only(
@@ -184,12 +184,12 @@ class HomeBarButton extends StatelessWidget implements PreferredSizeWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "Choose a Movie",
+                              "Pick your location",
                               style: TextStyle(
                                 fontFamily: "Montserrat",
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black,
+                                color: Color(0xFF0E2522), // Black
                                 decorationThickness: 0,
                               ),
                             ),
