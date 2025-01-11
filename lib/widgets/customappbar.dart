@@ -7,11 +7,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? trailingButton;
 
   CustomAppBar({
-    required this.title,
+    this.title = '',
     this.showBackButton = true,
     this.showBottomBorder = true,
     this.trailingButton,
   });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(65.0);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +95,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       )
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(65.0);
 }

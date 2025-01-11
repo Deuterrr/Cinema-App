@@ -36,10 +36,12 @@ dependencies:
   sqflite_common_ffi: ^2.0.0
   
   path: ^1.8.3
-
   path_provider: ^2.1.1
+
   permission_handler: ^11.0.1
   provider: ^6.0.0
+
+  supabase_flutter: ^1.2.2
     
 
 

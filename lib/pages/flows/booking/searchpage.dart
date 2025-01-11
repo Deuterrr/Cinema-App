@@ -1,17 +1,19 @@
-import 'package:cinema_application/data/models/listmovie.dart';
-import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
-import 'package:cinema_application/widgets/customappbar.dart';
+import 'package:cinema_application/widgets/searchfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Searchfieldpages extends StatefulWidget {
-  const Searchfieldpages({super.key});
+import 'package:cinema_application/data/models/listmovie.dart';
+import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
+import 'package:cinema_application/widgets/customappbar.dart';
+
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
 
   @override
-  State<Searchfieldpages> createState() => _SearhfieldpagesState();
+  State<SearchPage> createState() => SearchPageState();
 }
 
-class _SearhfieldpagesState extends State<Searchfieldpages> {
+class SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
   bool _isEmptyText = true;
   List<AllMovie> allmovie = [];
@@ -21,28 +23,25 @@ class _SearhfieldpagesState extends State<Searchfieldpages> {
   void initState() {
     super.initState();
 
-    // Inisialisasi daftar film
+    // list of movies (masih development, pakai dari app bukan db)
     try {
       allmovie = AllMovie.getList();
     } catch (e) {
       allmovie = [];
     }
 
-    // Tambahkan listener pada controller untuk menangani input pencarian
     _controller.addListener(() {
-      final query = _controller.text.toLowerCase(); // Ambil teks input
-      final isEmptyNow = query.isEmpty;
+      final query = _controller.text.toLowerCase();
+      final isQueryEmpty = query.isEmpty;
 
-      // Perbarui status _isEmptyText
-      if (isEmptyNow != _isEmptyText) {
+      if (isQueryEmpty != _isEmptyText) {
         setState(() {
-          _isEmptyText = isEmptyNow;
+          _isEmptyText = isQueryEmpty;
         });
       }
 
-      // Filter daftar film
       setState(() {
-        if (!isEmptyNow) {
+        if (!isQueryEmpty) {
           filteredMovie = allmovie.where((movie) {
             return movie.moviename.toLowerCase().startsWith(query);
           }).toList();
@@ -56,68 +55,25 @@ class _SearhfieldpagesState extends State<Searchfieldpages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 253, 247),
-      appBar: CustomAppBar(title: 'Search'),
-      body: Column(
+      backgroundColor: Color(0xFFFFFFFF), // White
+      appBar: CustomAppBar(showBottomBorder: false),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
         children: [
-          _searchField(),
+          SizedBox(height: 6),
+          SearchField(
+            controller: _controller,
+            isEmptyText: _isEmptyText,
+            suffixIcon: _isEmptyText,
+          ),
+          SizedBox(height: 22),
           Expanded(
             child: _movieList(), // Tampilkan daftar film yang difilter
           ),
         ],
       ),
-    );
-  }
-
-  Widget _searchField() {
-    return Container(
-      margin: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 20),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 253, 247),
-      ),
-      child: Row(
-        children: [
-          Flexible(
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              width: _isEmptyText ? 500 : 500,
-              child: TextField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  hintStyle: const TextStyle(fontSize: 14),
-                  filled: true,
-                  fillColor: const Color.fromRGBO(236, 185, 75, 1),
-                  contentPadding: const EdgeInsets.all(14),
-                  suffixIcon: _isEmptyText
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: SvgPicture.asset(
-                            'assets/icon/Search.svg',
-                            width: 15,
-                            height: 15,
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              _controller.clear();
-                            },
-                            child: const Icon(Icons.cancel),
-                          )),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 6, 6, 6),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      )
     );
   }
 
@@ -131,8 +87,6 @@ class _SearhfieldpagesState extends State<Searchfieldpages> {
         border: Border.all(color: Colors.black),
         boxShadow: [
           BoxShadow(
-            // color: Colors.black.withOpacity(0.1),
-            //blurRadius: 10,
             offset: const Offset(3, 5),
           ),
         ],

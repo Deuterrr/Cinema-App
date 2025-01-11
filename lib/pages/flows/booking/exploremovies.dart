@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cinema_application/data/models/listmovie.dart';
 
 import 'package:cinema_application/pages/flows/booking/detailmovie_upcoming.dart';
-import 'package:cinema_application/pages/flows/booking/searchfieldpages.dart';
+import 'package:cinema_application/pages/flows/booking/searchpage.dart';
 import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
 
 import 'package:cinema_application/widgets/customappbar.dart';
@@ -103,7 +103,7 @@ class _ExploreMoviesState extends State<ExploreMovies> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Searchfieldpages()),
+                    MaterialPageRoute(builder: (context) => SearchPage()),
                   );
                 },
                 icon: const Icon(
