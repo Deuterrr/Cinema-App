@@ -1,13 +1,17 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:cinema_application/data/models/listmovie.dart';
 
 import 'package:cinema_application/pages/flows/booking/detailmovie_upcoming.dart';
-import 'package:cinema_application/pages/flows/booking/searchpage.dart';
 import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
+import 'package:cinema_application/pages/flows/booking/searchpage.dart';
 
 import 'package:cinema_application/widgets/customappbar.dart';
+import 'package:cinema_application/widgets/customiconbutton.dart';
+import 'package:cinema_application/widgets/locationpanel.dart';
 import 'package:cinema_application/widgets/selectionstate.dart';
 
 class ExploreMovies extends StatefulWidget {
@@ -38,98 +42,45 @@ class _ExploreMoviesState extends State<ExploreMovies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 253, 247),
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: CustomAppBar(
-        title: "Movies",
+        title: "",
         showBottomBorder: false,
         trailingButton: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+
             // Location button
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 13.5),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              height: 36,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 196, 64),
-                border: Border.all(
-                  color: const Color.fromARGB(255, 14, 37, 34),
-                  width: 1.2,
-                ),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(1, 2),
-                    color: Colors.black.withOpacity(1),
-                  ),
-                ],
-              ),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Center(
-                  child: Text(
-                    "Location",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: "Montserrat",
-                      color: Color.fromARGB(255, 14, 37, 34),
-                    ),
-                  ),
-                ),
-              ),
+            CustomIconButton(
+              icon: Icons.location_on_outlined,
+              onPressed: () => locationPanel(context),
+              usingText: true,
+              text: 'Location',
             ),
 
+            SizedBox(width: 6),
+
             // Search button
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 13.5),
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 196, 64),
-                border: Border.all(
-                  color: const Color.fromARGB(255, 14, 37, 34),
-                  width: 1.2,
-                ),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(1, 2),
-                    color: Colors.black.withOpacity(1),
-                  ),
-                ],
-              ),
-              child: IconButton(
-                onPressed: () {
+            CustomIconButton(
+              icon: Icons.search_rounded,
+              onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SearchPage()),
                   );
                 },
-                icon: const Icon(
-                  Icons.search_rounded,
-                  color: Color.fromARGB(255, 14, 37, 34),
-                  size: 20,
-                ),
-              ),
-            ),
+              usingText: false
+            )
           ],
         ),
       ),
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromARGB(255, 14, 37, 34),
-                    width: 1.2,
-                  ),
-                ),
-              ),
               child: 
               Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -332,6 +283,45 @@ class _ExploreMoviesState extends State<ExploreMovies> {
           ),
         ],
       ),
+    );
+  }
+  
+  locationPanel(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "BlurredDialog",
+      transitionDuration: Duration(milliseconds: 190),
+      pageBuilder: (context, anim1, anim2) {
+        return Stack(
+          children: [
+            // Static blur background
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 3.0),
+                child: Container(
+                  color: Color(0xFFFFFFFF).withOpacity(0.35),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset(0, 1),
+                  end: Offset(0, 0),
+                ).animate(CurvedAnimation(
+                  parent: anim1,
+                  curve: Curves.easeOut,
+                )),
+
+                // The Panel
+                child: LocationPanel()
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

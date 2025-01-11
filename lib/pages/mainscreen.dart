@@ -32,20 +32,24 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  // to achieve transparent color for custom Bottom Navbar, don't use BottomNavigationBar, merge it with body instead.
+  // to achieve transparent color for custom Bottom Navbar, left BottomNavigationBar as an option, merge it with body instead.
   // the custom bar is not in BottomNavigationBar in the first place, that's why.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // prevent automatic resizing
       body: Stack(
         children: [
           _pages[_selectedIndex],
           Align(
             alignment: Alignment.bottomCenter,
-            child: Bottomnavbar(onItemTap: _onItemTap)
-          )
+            child: Container(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom == 0 ? 0 : 0), // ignore keyboard adjustment
+              child: Bottomnavbar(onItemTap: _onItemTap),
+            ),
+          ),
         ],
-      )
+      ),
     );
   }
 }

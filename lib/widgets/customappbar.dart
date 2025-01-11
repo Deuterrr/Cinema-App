@@ -1,3 +1,4 @@
+import 'package:cinema_application/widgets/customiconbutton.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -14,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(65.0);
+  Size get preferredSize => const Size.fromHeight(68.0);
 
   @override
   Widget build(BuildContext context) {
@@ -41,34 +42,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
               // Back Button
               if (showBackButton)
-                Container(
-                  height: 38,
-                  width: 38,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFEC958), // Orange
-                    border: Border.all(
-                      color: Color(0xFF0E2522), // Black
-                      width: 1.2,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(1.4, 1.8),
-                        color: Color(0xFF0E2522).withOpacity(1),
-                      ),
-                    ],
-                  ),
-                  child: IconButton(
-                    onPressed: () {
+                CustomIconButton(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Color(0xFF0E2522), // Black
-                      size: 18,
-                    ),
-                  ),
-                )
+                  usingText: false)
               else
                 const SizedBox(width: 36),
 
