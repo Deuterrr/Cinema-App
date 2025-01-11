@@ -19,17 +19,16 @@ class HomeBarButton extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class HomeBarButtonState extends State<HomeBarButton> {
-  final TextEditingController _controller = TextEditingController();
-  bool _isEmptyText = true;
-  List<dynamic> filteredLocation = [];
-  
   final apiHelper = ApiHelper();
+  final TextEditingController _controller = TextEditingController();
+
+  bool _isEmptyText = true;
+  List<dynamic>? _allLocations;
+  List<dynamic> filteredLocation = [];
 
   @override
   void initState() {
     super.initState();
-    _initializeLocations();
-
     _controller.addListener(() {
       final query = _controller.text.toLowerCase();
       final isQueryEmpty = query.isEmpty;
@@ -44,36 +43,33 @@ class HomeBarButtonState extends State<HomeBarButton> {
         _searchLocations(query);
       } else {
         setState(() {
-          filteredLocation = [];
+          filteredLocation = _allLocations ?? []; // Reset to all locations if available
         });
       }
     });
   }
 
-  // Initialize locations by fetching from API
-  Future<List> _initializeLocations() async {
+  Future<List<dynamic>> _fetchLocations() async {
     try {
       final allLocations = await apiHelper.getListofLocation();
-      setState(() {
-        filteredLocation = allLocations;
-      });
-      return filteredLocation;
+      _allLocations = allLocations; // Cache the data
+      return allLocations;
     } catch (e) {
       print('Error fetching locations: $e');
-      return [];
+      throw Exception('Failed to fetch locations.');
     }
   }
 
-  Future<void> _searchLocations(String query) async {
-    try {
-      setState(() {
-        filteredLocation = filteredLocation.where((location) {
-          return location['location_name'].toLowerCase().startsWith(query);
-        }).toList();
-      });
-    } catch (e) {
-      print('Error filtering locations: $e');
-    }
+  void _searchLocations(String query) {
+    if (_allLocations == null) return; // Skip if data hasn't been loaded yet
+
+    setState(() {
+      filteredLocation = _allLocations!.where((location) {
+        return location['location_name']
+            .toLowerCase()
+            .startsWith(query); // Adjust filter logic as needed
+      }).toList();
+    });
   }
 
   @override
@@ -266,7 +262,7 @@ class HomeBarButtonState extends State<HomeBarButton> {
 
                         SizedBox(height: 4),
 
-                        // just see the name
+                        // Search Field, duhh
                         SearchField(
                           controller: _controller,
                           isEmptyText: _isEmptyText,
@@ -275,41 +271,46 @@ class HomeBarButtonState extends State<HomeBarButton> {
 
                         SizedBox(height: 0),
 
-                        // List of Cities
+                        // Builder of Cities
                         Expanded(
-                          child: FutureBuilder<List<dynamic>>(
-                            future: _initializeLocations(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return Center(child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return Center(child: Text('Error: ${snapshot.error}'));
-                              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                return Center(child: Text('No locations available.'));
-                              } else {
-                                final cities = snapshot.data!;
-                                return ListView.builder(
-                                  itemCount: cities.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(
-                                        cities[index]['c_name'],
-                                        style: const TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF0E2522),
+                          child: _allLocations == null
+                              ? FutureBuilder<List<dynamic>>(
+                                  future: _fetchLocations(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return Center(child: CircularProgressIndicator());
+                                    } else if (snapshot.hasError) {
+                                      return Center(
+                                        child: Text(
+                                          'Error: ${snapshot.error}',
+                                          style: const TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xFF0E2522),
+                                          ),
                                         ),
-                                      ),
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    );
+                                      );
+                                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                      return Center(
+                                        child: Text(
+                                          'Please Ensure Network is Available',
+                                          style: const TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xFF0E2522),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      _allLocations = snapshot.data!;
+                                      filteredLocation = _allLocations!;
+                                      return _buildLocationList();
+                                    }
                                   },
-                                );
-                              }
-                            },
-                          ),
+                                )
+                              : _buildLocationList(),
                         ),
                       ],
                     ),
@@ -318,6 +319,28 @@ class HomeBarButtonState extends State<HomeBarButton> {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLocationList() {
+    return ListView.builder(
+      itemCount: filteredLocation.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(
+            filteredLocation[index]['c_name'],
+            style: const TextStyle(
+              fontFamily: "Montserrat",
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF0E2522),
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
         );
       },
     );
