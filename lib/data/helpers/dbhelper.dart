@@ -111,7 +111,7 @@ class DatabaseHelper {
     return _database!;
   }
   
-  // insert any row (for now, only login and users table)
+  // insert any row
   Future<int> insertRow(String table, Map<String, dynamic> row) async {
     try {
       final db = await database;

@@ -1,7 +1,7 @@
 import 'package:cinema_application/pages/mainscreen.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
+import 'package:cinema_application/data/helpers/dbquerieshelper.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final AccountHelper accountHelper = AccountHelper();
+  final DatabaseQueriesHelper accountHelper = DatabaseQueriesHelper();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -53,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 253, 247),
-      appBar: CustomAppBar(title: 'Sign in'),
+      appBar: CustomAppBar(
+        useAppTitle: false,
+        centerText: 'Sign in',
+        ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

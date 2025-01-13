@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cinema_application/data/helpers/sharedprefsutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,13 +23,16 @@ class ExploreMovies extends StatefulWidget {
 }
 
 class _ExploreMoviesState extends State<ExploreMovies> {
+  String currentLocation = 'All Cinemas';
   bool isVoucherClicked = false;
+
   late List<AllMovie> nowMovies;
   late List<AllMovie> upcomingMovies;
 
   @override
   void initState() {
     super.initState();
+    _loadLocation();
     nowMovies = AllMovie.getList();
     upcomingMovies = AllMovie.getUpcoming();
   }
@@ -39,12 +43,19 @@ class _ExploreMoviesState extends State<ExploreMovies> {
     });
   }
 
+  Future<void> _loadLocation() async {
+    final location = await LocationService.getLocation();
+    setState(() {
+      currentLocation = location;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: CustomAppBar(
-        title: "",
+        centerText: "",
         showBottomBorder: false,
         trailingButton: Row(
           mainAxisSize: MainAxisSize.min,
@@ -55,7 +66,7 @@ class _ExploreMoviesState extends State<ExploreMovies> {
               icon: Icons.location_on_outlined,
               onPressed: () => locationPanel(context),
               usingText: true,
-              text: 'Location',
+              theText: currentLocation,
             ),
 
             SizedBox(width: 6),
@@ -316,7 +327,13 @@ class _ExploreMoviesState extends State<ExploreMovies> {
                 )),
 
                 // The Panel
-                child: LocationPanel()
+                child: LocationPanel(
+                  onSelect: (selectedLocation) {
+                    setState(() {
+                      currentLocation = selectedLocation;
+                    });
+                  }
+                )
               ),
             ),
           ],

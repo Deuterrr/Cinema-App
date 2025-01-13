@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
+import 'package:cinema_application/data/helpers/dbquerieshelper.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -73,10 +73,10 @@ class _EditprofileState extends State<Editprofile> {
   }
 
   void _checkLoginStatus() async {
-    String? lastLoginEmail = await AccountHelper().getLastLogin();
+    String? lastLoginEmail = await DatabaseQueriesHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
-      final user = await AccountHelper().getUserByEmail(lastLoginEmail);
+      final user = await DatabaseQueriesHelper().getUserByEmail(lastLoginEmail);
       if (user != null) {
         setState(() {
           _isLoggedIn = true;
@@ -95,7 +95,7 @@ class _EditprofileState extends State<Editprofile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Edit Profile'),
+      appBar: CustomAppBar(centerText: 'Edit Profile'),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

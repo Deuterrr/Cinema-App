@@ -12,10 +12,13 @@ class _MyWishlistPageState extends State<MyWishlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 253, 247),
+      backgroundColor: const Color(0xFFFFFFFF), // White
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(64),
-        child: CustomAppBar(title: 'Wishlist', showBackButton: false,),
+        child: CustomAppBar(
+          centerText: 'Wishlist',
+          showBackButton: false
+        ),
       ),
       body: Center(
         child: Text(

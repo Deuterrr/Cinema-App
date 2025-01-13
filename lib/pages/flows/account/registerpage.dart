@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cinema_application/pages/flows/account/loginpage.dart';
-import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
+import 'package:cinema_application/data/helpers/dbquerieshelper.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -11,7 +11,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final AccountHelper accountHelper = AccountHelper();
+  final DatabaseQueriesHelper accountHelper = DatabaseQueriesHelper();
 
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 253, 247),
-      appBar: CustomAppBar(title: 'Sign up'),
+      appBar: CustomAppBar(centerText: 'Sign up'),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

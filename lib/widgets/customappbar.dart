@@ -2,15 +2,17 @@ import 'package:cinema_application/widgets/customiconbutton.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
+  final String centerText;
+  final bool useAppTitle;
   final bool showBottomBorder;
   final bool showBackButton;
   final Widget? trailingButton;
 
   CustomAppBar({
-    this.title = '',
+    this.centerText = '',
     this.showBackButton = true,
     this.showBottomBorder = true,
+    this.useAppTitle = false,
     this.trailingButton,
   });
 
@@ -48,13 +50,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       Navigator.pop(context);
                     },
                   usingText: false)
+              // use title instead
+              else if (useAppTitle)
+                Text(
+                  'Cinema Scope',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF0E2522), // Black
+                  ),
+                )
               else
                 const SizedBox(width: 36),
 
               // Title
               Center(
                 child: Text(
-                  title,
+                  centerText,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontFamily: "Montserrat",

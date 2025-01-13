@@ -1,3 +1,4 @@
+import 'package:cinema_application/data/helpers/sharedprefsutil.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinema_application/data/helpers/apihelper.dart';
@@ -5,13 +6,17 @@ import 'package:cinema_application/widgets/searchfield.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LocationPanel extends StatefulWidget {
-  const LocationPanel({super.key});
+  final Function(String) onSelect;
+
+  const LocationPanel({Key? key, required this.onSelect}) : super(key: key);
 
   @override
-  State<LocationPanel> createState() => LocationPanelState();
+  State<LocationPanel> createState() => _LocationPanelState();
 }
 
-class LocationPanelState extends State<LocationPanel> {
+class _LocationPanelState extends State<LocationPanel> {
+  String selectedLocation = '-';
+
   final apiHelper = ApiHelper();
   final TextEditingController _controller = TextEditingController();
 
@@ -37,7 +42,7 @@ class LocationPanelState extends State<LocationPanel> {
         if (!isQueryEmpty && allLocations != null) {
           filteredLocation = allLocations!.where((location) {
             return location['c_name'].toLowerCase().startsWith(query);
-            // location['c_name] karena value dari db bentuknya list dari maps, bukan raw values (harus ada key berarti)
+            // location['c_name], karena value dari db bentuknya list dari maps, bukan raw values (harus ada key berarti)
           }).toList();
         } else {
           filteredLocation = [];
@@ -50,12 +55,19 @@ class LocationPanelState extends State<LocationPanel> {
     try {
       final locationRows = await apiHelper.getListofLocation();
       allLocations = locationRows;
-      print(locationRows);
       return locationRows;
     } catch (e) {
-      print('Error fetching locations: $e');
       throw Exception('Failed to fetch locations.');
     }
+  }
+
+  Future<void> _handleLocationSelection(String location) async {
+    setState(() {
+      selectedLocation = location;
+    });
+    await LocationService.saveLocation(location);
+    widget.onSelect(location);
+    Navigator.pop(context);
   }
   
   @override
@@ -174,7 +186,6 @@ class LocationPanelState extends State<LocationPanel> {
   Widget _buildLocationList() {
     // if there is no query sent by user
     if (_isEmptyText) {
-      print(filteredLocation.isEmpty);
       return ListView.builder(
         itemCount: allLocations!.length,
         itemBuilder: (context, index) {
@@ -189,7 +200,7 @@ class LocationPanelState extends State<LocationPanel> {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pop();
+              _handleLocationSelection(allLocations![index]['c_name']);
             },
           );
         },
@@ -244,7 +255,7 @@ class LocationPanelState extends State<LocationPanel> {
             ),
           ),
           onTap: () {
-            Navigator.of(context).pop();
+            _handleLocationSelection(allLocations![index]['c_name']);
           },
         );
       },

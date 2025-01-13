@@ -39,7 +39,7 @@ class _BookingSeats extends State<BookingSeats> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 167, 212, 203),
-      appBar: CustomAppBar(title: 'Theater Name'),
+      appBar: CustomAppBar(centerText: 'Theater Name'),
       body: SingleChildScrollView(
         controller: _verticalController,
         scrollDirection: Axis.vertical,

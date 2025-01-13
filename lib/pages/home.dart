@@ -1,16 +1,21 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 // import 'package:provider/provider.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cinema_application/data/helpers/sharedprefsutil.dart';
 
 import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
 import 'package:cinema_application/pages/flows/booking/exploremovies.dart';
+import 'package:cinema_application/pages/flows/booking/searchpage.dart';
 
 import 'package:cinema_application/data/models/listmovie.dart';
 import 'package:cinema_application/data/models/film.dart';
 
-import 'package:cinema_application/widgets/homebar.dart';
+import 'package:cinema_application/widgets/customappbar.dart';
+import 'package:cinema_application/widgets/customiconbutton.dart';
+import 'package:cinema_application/widgets/locationpanel.dart';
 import 'package:cinema_application/widgets/sectionicon.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String currentLocation = 'All Cinemas';
   late List<MovieList> listmoviefirst;
   late List<AllMovie> allmovie;
   late List<AllMovie> upcomingMovies;
@@ -28,16 +34,56 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadLocation();
     listmoviefirst = MovieList.getList();
     allmovie = AllMovie.getList();
     upcomingMovies = AllMovie.getUpcoming();
+  }
+
+  Future<void> _loadLocation() async {
+    final location = await LocationService.getLocation();
+    setState(() {
+      currentLocation = location;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF), // White
-      appBar: HomeBarButton(),
+      appBar: CustomAppBar(
+        useAppTitle: true,
+        centerText: "",
+        showBackButton: false,
+        showBottomBorder: true,
+        trailingButton: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            // Location button
+            CustomIconButton(
+              icon: Icons.location_on_outlined,
+              onPressed: () => locationPanel(context),
+              usingText: true,
+              theText: currentLocation,
+            ),
+
+            SizedBox(width: 6),
+
+            // Search button
+            CustomIconButton(
+              icon: Icons.search_rounded,
+              onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchPage()),
+                  );
+                },
+              usingText: false
+            )
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           SafeArea(
@@ -134,6 +180,53 @@ class _HomePageState extends State<HomePage> {
     },
   );
 }
+
+                // The Panel
+  locationPanel(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "BlurredDialog",
+      transitionDuration: Duration(milliseconds: 190),
+      pageBuilder: (context, anim1, anim2) {
+        return Stack(
+          children: [
+            // Static blur background
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 3.0),
+                child: Container(
+                  color: Color(0xFFFFFFFF).withOpacity(0.35),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset(0, 1),
+                  end: Offset(0, 0),
+                ).animate(CurvedAnimation(
+                  parent: anim1,
+                  curve: Curves.easeOut,
+                )),
+
+                // The Panel
+                child: LocationPanel(
+                  onSelect: (selectedLocation) {
+                    setState(() {
+                      currentLocation = selectedLocation;
+                    });
+                  }
+                )
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   // display users voucher
   Widget displayVoucher() {
@@ -505,5 +598,4 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
-
 }

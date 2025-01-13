@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:cinema_application/pages/mainscreen.dart';
 import 'package:cinema_application/pages/flows/account/accountsetup.dart';
-import 'package:cinema_application/data/helpers/dbaccounthelper.dart';
+import 'package:cinema_application/data/helpers/dbquerieshelper.dart';
 import 'package:cinema_application/pages/flows/profile/editprofile.dart';
 
 import 'package:cinema_application/widgets/customappbar.dart';
@@ -39,11 +39,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   void _checkLoginStatus() async {
     // Fetch the last logged-in account from the login table
-    String? lastLoginEmail = await AccountHelper().getLastLogin();
+    String? lastLoginEmail = await DatabaseQueriesHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
       // Fetch user details from the users table
-      final user = await AccountHelper().getUserByEmail(lastLoginEmail);
+      final user = await DatabaseQueriesHelper().getUserByEmail(lastLoginEmail);
       if (user != null) {
         setState(() {
           _isLoggedIn = true;
@@ -55,11 +55,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
   }
 
   void _deleteLoginStatus() async {
-    String? lastLoginEmail = await AccountHelper().getLastLogin();
+    String? lastLoginEmail = await DatabaseQueriesHelper().getLastLogin();
 
     if (lastLoginEmail != null) {
       // Attempt to delete the login
-      final result = await AccountHelper().deleteLastLogin(lastLoginEmail);
+      final result = await DatabaseQueriesHelper().deleteLastLogin(lastLoginEmail);
       if (result > 0) {
         setState(() {
           _isLoggedIn = false;
@@ -79,10 +79,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 253, 247),
+      backgroundColor: const Color(0xFFFFFFFF), // White
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(64),
-        child: CustomAppBar(title: 'Profile', showBackButton: false,),
+        child: CustomAppBar(
+          centerText: 'Profile',
+          showBackButton: false
+        ),
       ),
       body: SafeArea(
         child: Container(

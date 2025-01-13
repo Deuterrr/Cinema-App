@@ -10,7 +10,7 @@ class AccountSetupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 253, 247),
-      appBar: CustomAppBar(title: ''),
+      appBar: CustomAppBar(centerText: ''),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
