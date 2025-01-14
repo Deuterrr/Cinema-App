@@ -9,6 +9,7 @@ class ApiHelper {
       .select('''
         m_title, 
         m_genre,
+        m_imageurl,
         schedule (
           sch_status,
           studio (
@@ -21,7 +22,6 @@ class ApiHelper {
           )
         )
       ''')
-      .eq('schedule.sch_status', true)
       .eq('m_status', movieStatus)
       .eq('schedule.studio.cinema.city.c_name', cityName)
       .execute();

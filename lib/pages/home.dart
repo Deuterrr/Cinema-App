@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cinema_application/data/helpers/apihelper.dart';
+import 'package:cinema_application/widgets/moviecard.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 // import 'package:provider/provider.dart';
@@ -27,14 +29,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String currentLocation = 'All Cinemas';
+  List<dynamic>? allNowPlaying;
+  List<dynamic>? allUpcoming;
   late List<MovieList> listmoviefirst;
   late List<AllMovie> allmovie;
   late List<AllMovie> upcomingMovies;
+
+  final apiHelper = ApiHelper();
 
   @override
   void initState() {
     super.initState();
     _loadLocation();
+    _loadNowPlayingMovies();
+    _loadUpcomingMovies();
     listmoviefirst = MovieList.getList();
     allmovie = AllMovie.getList();
     upcomingMovies = AllMovie.getUpcoming();
@@ -45,6 +53,30 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       currentLocation = location;
     });
+  }
+
+  Future<List<dynamic>> _loadNowPlayingMovies() async {
+    try {
+      final nowPlayingRows = await apiHelper
+        .getDesireMoviesByCityandSchedule('now_playing', currentLocation);
+      allNowPlaying = nowPlayingRows;
+      print(nowPlayingRows);
+      return nowPlayingRows;
+    } catch (e) {
+      throw Exception('Failed to fetch movies.');
+    }
+  }
+
+  Future<List<dynamic>> _loadUpcomingMovies() async {
+    try {
+      final upcomingRows = await apiHelper
+        .getDesireMoviesByCityandSchedule('upcoming', currentLocation);
+      allUpcoming = upcomingRows;
+      print(upcomingRows);
+      return upcomingRows;
+    } catch (e) {
+      throw Exception('Failed to fetch movies.');
+    }
   }
 
   @override
@@ -281,7 +313,7 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   "Now Playing",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 18,
                     color: Color(0xFF0E2522), // Black
                     fontWeight: FontWeight.w700,
                     fontFamily: "Montserrat",
@@ -310,14 +342,36 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          
           SizedBox(height: 4),
 
-          Container(
-            width: 210,
-            height: 352,
-            decoration: BoxDecoration(
-              color: Color(0xFFFFD580) // Flat Orange
-            ),
+          SizedBox(
+            height: 378,
+            child: allNowPlaying == null
+                ? FutureBuilder<List<dynamic>>(
+                    future: _loadNowPlayingMovies(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'Please ensure network is available',
+                            style: const TextStyle(
+                              fontFamily: "Montserrat",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF0E2522),
+                            ),
+                          ),
+                        );
+                      } else {
+                        allNowPlaying = snapshot.data!;
+                        return buildMovieList(allNowPlaying!, true);
+                      }
+                    },
+                  )
+                : buildMovieList(allNowPlaying!, true),
           )
         ],
       ),
@@ -327,7 +381,7 @@ class _HomePageState extends State<HomePage> {
   // list upcoming movie
   Widget upcomingMovie() {
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 14, 16, 24),
+      padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -338,10 +392,10 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Upcoming",
+                child: Text(
+                  "Upcoming",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 18,
                     color: Color(0xFF0E2522), // Black
                     fontWeight: FontWeight.w700,
                     fontFamily: "Montserrat",
@@ -370,51 +424,57 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          
           SizedBox(height: 4),
 
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                  width: 124,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFD580) // Flat Orange
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                  width: 124,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFD580) // Flat Orange
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                  width: 124,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFD580) // Flat Orange
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                  width: 124,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFD580) // Flat Orange
-                  ),
-                ),
-              ],
-            )
+          SizedBox(
+            height: 260,
+            child: allUpcoming == null
+                ? FutureBuilder<List<dynamic>>(
+                    future: _loadUpcomingMovies(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'Please ensure network is available',
+                            style: const TextStyle(
+                              fontFamily: "Montserrat",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF0E2522),
+                            ),
+                          ),
+                        );
+                      } else {
+                        allUpcoming = snapshot.data!;
+                        return buildMovieList(allUpcoming!, false);
+                      }
+                    },
+                  )
+                : buildMovieList(allUpcoming!, false),
           )
         ],
       ),
     );
   }
+
+  Widget buildMovieList(List desiredMovies, bool isBig) {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: desiredMovies.length,
+      itemBuilder: (context, index) {
+        return VerticalMovieCard(
+          bigSize: isBig,
+          movieTitle: desiredMovies[index]['m_title'],
+          movieImage: desiredMovies[index]['m_imageurl'],
+          movieGenre: desiredMovies[index]['m_genre'],
+        );
+      },
+    );
+  }
+
 
   Widget contoh() {
     return Container(

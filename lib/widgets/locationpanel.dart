@@ -160,14 +160,14 @@ class _LocationPanelState extends State<LocationPanel> {
                         } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
                           return Center(
                             child: Text(
-                              'Please Ensure Network is Available',
+                              'Please ensure network is nvailable',
                               style: const TextStyle(
                                 fontFamily: "Montserrat",
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF0E2522),
-                              ),
-                            ),
+                              )
+                            )
                           );
                         } else {
                           allLocations = snapshot.data!;
