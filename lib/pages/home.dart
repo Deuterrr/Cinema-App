@@ -1,11 +1,9 @@
 import 'dart:ui';
 
-import 'package:cinema_application/data/helpers/apihelper.dart';
-import 'package:cinema_application/widgets/moviecard.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:provider/provider.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:cinema_application/data/helpers/apihelper.dart';
 import 'package:cinema_application/data/helpers/sharedprefsutil.dart';
 
 import 'package:cinema_application/pages/flows/booking/detailmoviepages.dart';
@@ -18,6 +16,7 @@ import 'package:cinema_application/data/models/film.dart';
 import 'package:cinema_application/widgets/customappbar.dart';
 import 'package:cinema_application/widgets/customiconbutton.dart';
 import 'package:cinema_application/widgets/locationpanel.dart';
+import 'package:cinema_application/widgets/moviecard.dart';
 import 'package:cinema_application/widgets/sectionicon.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,7 +59,6 @@ class _HomePageState extends State<HomePage> {
       final nowPlayingRows = await apiHelper
         .getDesireMoviesByCityandSchedule('now_playing', currentLocation);
       allNowPlaying = nowPlayingRows;
-      print(nowPlayingRows);
       return nowPlayingRows;
     } catch (e) {
       throw Exception('Failed to fetch movies.');
@@ -72,7 +70,6 @@ class _HomePageState extends State<HomePage> {
       final upcomingRows = await apiHelper
         .getDesireMoviesByCityandSchedule('upcoming', currentLocation);
       allUpcoming = upcomingRows;
-      print(upcomingRows);
       return upcomingRows;
     } catch (e) {
       throw Exception('Failed to fetch movies.');
@@ -133,7 +130,7 @@ class _HomePageState extends State<HomePage> {
 
                     // sementara ngga dipakai dulu
                     // displaying vouchers and coupons
-                    // displayVoucher(),
+                    displayVoucher(),
 
                     // displaying now showing movies in box
                     nowPlayingMovie(),
@@ -177,13 +174,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.purple
+                    color: Colors.white
                   ),
                 ),
-                // Image.asset(
-                //   movie.images,
-                //   fit: BoxFit.cover,
-                // ),
+
                 Positioned(
                   bottom: 5,
                   left: 0,
@@ -192,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                     movie.nameMovie,
                     textAlign: TextAlign.end,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -276,15 +270,18 @@ class _HomePageState extends State<HomePage> {
                 title: 'Level',
                 value: ' Classic',
                 haveIcon: false,),
+            SizedBox(width: 6),
             SectionWithIcon(
                 title: 'Points',
                 value: ' 0',
                 haveIcon: false,),
+            SizedBox(width: 6),
             SectionWithIcon(
                 title: 'Vouchers',
                 value: ' 0',
                 haveIcon: true,
                 icon: 'assets/icon/coupunicon.svg'),
+            SizedBox(width: 6),
             SectionWithIcon(
                 title: 'Coupons',
                 value: ' 0',
@@ -351,8 +348,10 @@ class _HomePageState extends State<HomePage> {
                 ? FutureBuilder<List<dynamic>>(
                     future: _loadNowPlayingMovies(),
                     builder: (context, snapshot) {
+                      // if still loading
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
+                      // if failed to retrieve the data
                       } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
                           child: Text(
@@ -381,7 +380,7 @@ class _HomePageState extends State<HomePage> {
   // list upcoming movie
   Widget upcomingMovie() {
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
+      padding: EdgeInsets.fromLTRB(16, 14, 16, 64),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -433,8 +432,12 @@ class _HomePageState extends State<HomePage> {
                 ? FutureBuilder<List<dynamic>>(
                     future: _loadUpcomingMovies(),
                     builder: (context, snapshot) {
+                      // if still loading
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                          child: CircularProgressIndicator()
+                        );
+                      // if failed to retrieve the data
                       } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
                           child: Text(
@@ -464,6 +467,7 @@ class _HomePageState extends State<HomePage> {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: desiredMovies.length,
+      shrinkWrap: true,
       itemBuilder: (context, index) {
         return VerticalMovieCard(
           bigSize: isBig,

@@ -53,20 +53,20 @@ class VerticalMovieCard extends StatelessWidget {
   double get imageWidth => bigSize ? 197 : 134;
   double get cardShadowDX => bigSize ? 3.4 : 2.8;
   double get cardShadowDY => bigSize ? 4.2 : 3.6;
-  double get rightMargin => bigSize ? 12 : 6;
+  double get rightMargin => bigSize ? 12 : 8;
   double get borderWight => bigSize ? 2 : 1.6;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 0, 14),
+      padding: const EdgeInsets.fromLTRB(8, 0, 0, 12),
       child: Container(
-        padding: EdgeInsets.all((bigSize) ? 4 : 3.6),
+        padding: EdgeInsets.all((bigSize) ? 8 : 6),
         margin: EdgeInsets.only(right: rightMargin),
         height: cardHeight,
         width: cardWidth,
         decoration: BoxDecoration(
-          color: Color(0xFFFFCD67), // Flat Orange
+          color: Color(0xFFD5D5D5), // Light Grey
           borderRadius: BorderRadius.circular((bigSize) ? 8 : 6),
           boxShadow: [
             BoxShadow(
@@ -108,34 +108,31 @@ class VerticalMovieCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.fromLTRB(6, 4, 6, 6),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
-                  Center(
-                    child: 
-                    Text(
-                      movieTitle,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: (bigSize) ? 16 : 12,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF0E2522), // Black
-                      ),
-                      overflow: TextOverflow.ellipsis, // Adds the ellipsis
-                      maxLines: 1, // Limits the text to one line
-                    )
+                  Text(
+                    movieTitle,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: (bigSize) ? 15 : 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF0E2522), // Black
+                    ),
+                    overflow: TextOverflow.ellipsis, // Adds the ellipsis
+                    maxLines: 1, // Limits the text to one line
                   ),
-                  SizedBox(height: (bigSize) ? 5 : 3),
-                  Center(
-                    child: Text(
-                      movieGenre,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: (bigSize) ? 12 : 10,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF0E2522), // Black
-                      )
-                    )
+                  SizedBox(height: (bigSize) ? 5 : 4),
+                  Text(
+                    movieGenre,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: (bigSize) ? 11 : 10,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF0E2522), // Black
+                    ),
+                    overflow: TextOverflow.ellipsis, // Adds the ellipsis
+                    maxLines: 1, // Limits the text to one line
                   )
                 ],
               )
